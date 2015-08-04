@@ -35,8 +35,77 @@ spl_autoload_register('Imooc\\Loader::autoload');
 //$page->setStrategy($strategy);
 //$page->index();
 
+//class Page{
+//	public function index(){
+//		$user = Imooc\Factory::getuser(1);
+//		$user->mobile = 11;
+//		var_dump($user);
+//		$this->test();
+//	}
+//	public function test(){
+//		$user = Imooc\Factory::getuser(1);
+//		var_dump($user);
+//		$user->name = 'coco';
+//	}
+//}
+//
+//$test = new Page();
+//$test->index();
 
-$con = new Imooc\Databases\PDO();
-$con->connect('localhost','root','root','test');
-$res = $con->query('select * from user ');
+
+class Event extends Imooc\EventGenerator{
+
+	public  function trigger(){
+		echo 'Event<br/>';
+        $this->notify();
+	}
+}
+
+class Observer1 implements Imooc\Observer{
+
+	public function update($event_info = null){
+		echo 'Observer1<br/>';
+	}
+}
+
+$event = new Event();
+$event->addObsever(new Observer1());
+$event->trigger();
+
+
+$func = function($str){
+	echo $str;
+};
+
+$func('some string');
+
+
+function getPrintStrFunc(){
+	$func = function($str){
+	  echo $str;
+	};
+	return $func;
+}
+
+$fun1 = getPrintStrFunc();
+
+$fun1('some thins');
+
+class Category{
+	private $db;
+	function __construct(){
+		$this->db = new Imooc\Databases\MySQLi();
+	}
+
+	public function getCategorys($id){
+		$res = $this->db->query('select id from category where parent_id =' .$id);
+		$data = $res->fetch_assoc();
+
+	}
+
+	public function __destruct(){
+		$this->db->close();
+	}
+}
+
 

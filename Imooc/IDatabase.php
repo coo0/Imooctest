@@ -15,3 +15,5 @@ interface IDatabase {
 	public function query($sql);
 	public function close();
 }
+
+

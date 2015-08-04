@@ -19,4 +19,13 @@ class Factory{
 
 	}
 
+	static function getuser($id){
+		$user = Register::get($id);
+		if(!$user) {
+			$user = new User($id);
+			Register::set($id,$user);
+		}
+		return $user;
+	}
+
 }
